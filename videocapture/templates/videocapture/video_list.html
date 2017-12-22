@@ -1,0 +1,29 @@
+{% extends "videocapture/root.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "All Videos" %}{% endblock %}
+
+{% block content %}
+
+    <div class="row col-lg-12">
+        <h1 class="page-header">{% trans "All Videos" %}</h1>
+    </div>
+    
+    <hr>
+
+	{% if object_list %}
+		{% for video in object_list %}
+            <h1><a href="{{video.get_watch_video_url}}">{{video.title}}</a></h1>
+            <i>Filmed on {{video.dateFilmed}}</i>
+		    <a href="{{ video.get_watch_video_url }}">
+                <img width="300" height="150" src="{{ video.get_thumbnail_url }}" class="thumbnail" alt="{{ video.title }}">
+		    </a>
+        <hr>
+		{% endfor %}
+	{% else %}
+		<div>{% trans "No videos were found" %}.</div>
+	{% endif %}
+
+	{% include "videocapture/includes/paginator.html" %}
+
+{% endblock %}

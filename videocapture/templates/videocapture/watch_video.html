@@ -1,0 +1,25 @@
+{% extends "videocapture/root.html" %}
+{% load i18n %}
+
+{% block title %}{{ object.title }}{% endblock %}
+
+{% block content %}
+
+    <div class="row col-lg-12">
+        <h1 class="page-header">{{ object.title }}</h1>
+        <p class="muted"><small>{% trans "Filmed on " %} {{ object.dateFilmed }}</small></p>
+    </div>
+    
+    <hr>
+
+    <div class="row">
+        <div class="col-md-12">
+            <video width="100%" height="auto" autoplay controls>
+                <source src="{{object.get_video_url}}" type="{{object.get_video_type}}"></source>
+                Sorry, but your browser doesn't support the video tag.
+            </video>
+            <a href="{% url 'videocapture:video-list' %}">View All Videos</a>
+        </div>
+    </div>
+
+{% endblock %}

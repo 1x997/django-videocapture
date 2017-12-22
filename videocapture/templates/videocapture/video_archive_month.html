@@ -1,0 +1,48 @@
+{% extends "videocapture/root.html" %}
+{% load i18n %}
+
+{% block title %}{% blocktrans with show_month=month|date:"F Y" %}Videos for {{ show_month }}{% endblocktrans %}{% endblock %}
+
+{% block content %}
+
+    <div class="row col-lg-12">
+        <h1 class="page-header">{% blocktrans with show_month=month|date:"F Y" %}Videos for {{ show_month }}{% endblocktrans %}</h1>
+    </div>
+    
+    <hr>
+
+    <div class="row">
+
+        <aside class="col-md-2" style="background-color: turquoise;">
+
+            <h4>{% trans "Filter by day" %}</h4>
+            <ul>
+            {% for date in date_list %}
+                <li><a href="{% url 'videocapture:video-archive-day' date.year date|date:"m"|lower date.day %}">{{ date|date:"d" }}</a></li>
+            {% endfor %}
+            </ul>
+
+        </aside>
+
+        <main class="col-md-10">
+
+    		{% if object_list %}
+    			{% for video in object_list %}
+                    <h1><a href="{{video.get_watch_video_url}}">{{video.title}}</a></h1>
+                    <i>Filmed on {{video.dateFilmed}}</i>
+    			    <a href="{{ video.get_watch_video_url }}">
+                        <img width="300" height="150" src="{{ video.get_thumbnail_url }}" class="thumbnail" alt="{{ video.title }}">
+    			    </a>
+                    <hr>
+    			{% endfor %}
+    		{% else %}
+    			<p>{% trans "No videos were found" %}.</p>
+    		{% endif %}
+
+            <div><a href="{% url 'videocapture:video-archive-year' month.year %}" class="btn btn-default">{% trans "View all videos for year" %}</a></div>
+
+        </main>
+
+    </div>
+    
+{% endblock %}
